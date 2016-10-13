@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Matching Game</title>
+		<meta name='Author' content='Girish'>
+		<style>
+			
+			img{position:absolute;height:100px}
+			.BoxStyle{position: absolute;width: 600px;height: 500px;background: #73AFB6;}
+			#rightSide{left: 650px}
+			#leftSide{left: 30px}
+			#level{color:maroon;}
+			
+		</style>
+
+	</head>
+
+	<body onload='generateFaces()' style='background:#E2DA99'>
+		<audio src='C:\GameFiles\Deep.mp3' id='deep' autoplay></audio>
+		<h1>Matching Game</h1>
+		<p>Click on the extra squirtle on the left</p>
+		<h2 id='level'></h2>
+		<script>
+			var numberOfFaces=5;
+			var thelevelNumber=1;
+			function generateFaces(){
+				 var theImage,leftSideClone,theLevel;
+				 var theLeftSide=document.getElementById('leftSide');
+				 var theRightSide=document.getElementById('rightSide');
+				 var theBody =document.getElementsByTagName("body")[0];
+				 var theLevelNode=document.getElementById('level');
+				 var theAudio=document.getElementById('deep');
+				 while(theLeftSide.firstChild)
+				 	theLeftSide.removeChild(theLeftSide.firstChild);
+				 while(theRightSide.firstChild)
+				 	theRightSide.removeChild(theRightSide.firstChild);
+				 while(theLevelNode.firstChild)
+				 	theLevelNode.removeChild(theLevelNode.firstChild);
+				 theLevel=document.createTextNode('Level-'+thelevelNumber);
+				 theLevelNode.appendChild(theLevel);
+				for (var i = numberOfFaces; i > 0; i--) {
+					theImage=document.createElement('img');
+					theImage.src="C:\\GameFiles\\Squirtle.gif";
+					theImage.style.top= Math.floor(Math.random()*401)+'px';
+					theImage.style.left=Math.floor(Math.random()*401)+'px';
+					theLeftSide.appendChild(theImage);
+					}
+
+					leftSideClone=theLeftSide.cloneNode(true);
+					leftSideClone.removeChild(leftSideClone.lastChild)
+					theRightSide.appendChild(leftSideClone);
+					theLeftSide.lastChild.onclick=function nextLevel(event){
+        											event.stopPropagation();
+        											numberOfFaces += 5;
+        											thelevelNumber++;
+        											generateFaces();
+
+													};
+					theBody.onclick = function gameOver() {
+										theAudio.pause();
+    									alert("Game Over!\n"+'Levels Completed: '+thelevelNumber);
+	   									theBody.onclick = null;
+    									theLeftSide.lastChild.onclick = null;
+										};
+			}
+
+		</script>
+
+		<div id='leftSide' class='BoxStyle'></div>
+		<div id='rightSide' class='BoxStyle'></div>
+		
+		
+
+	</body>
+</html>
